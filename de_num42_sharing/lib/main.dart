@@ -71,7 +71,30 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(widget.title,
+          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
+        actions: [
+          TextButton(
+              style: TextButton.styleFrom(
+                primary: Color.fromRGBO(21, 128, 61, 1),
+              ),
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('This is a snackbar')));
+              },
+              child: Text("Einloggen")),
+          TextButton(
+            child: Text("Registrieren"),
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.all(16.0),
+              primary: Color.fromRGBO(220, 252, 231, 1),
+              backgroundColor: Color.fromRGBO(21, 128, 61, 1),
+            ),
+            onPressed: () {
+              print('Pressed');
+            },
+          )
+        ],
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -93,6 +116,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+              'Teilen macht',
+              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+            ),
+            Text('glücklich.'),
             Text(
               'You have pushed the button this many times:',
             ),
