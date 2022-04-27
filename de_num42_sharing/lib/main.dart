@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
+
+import 'login.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key,  this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -91,7 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
               backgroundColor: Color.fromRGBO(21, 128, 61, 1),
             ),
             onPressed: () {
-              print('Pressed');
+             Navigator.push(context,MaterialPageRoute(builder:(context) => const LoginRoute()),
+             );
             },
           )
         ],
@@ -119,6 +123,16 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               'Teilen macht',
               style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
+            ),
+            GradientText(
+              'glücklich.',
+              style: TextStyle( fontSize: 40.0, ),
+              gradientType: GradientType.radial,
+              radius: 2.5,
+              colors: [ Color.fromRGBO(29, 78, 216, 1),
+                Color.fromRGBO(126, 34, 206, 1),
+                Color.fromRGBO(190, 24, 93, 1),
+              ],
             ),
             Text('glücklich.'),
             Text(
