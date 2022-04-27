@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 
 class LoginRoute extends StatelessWidget {
-  const LoginRoute({Key key}) : super(key: key);
+  const LoginRoute({Key? key}) : super(key: key);
 
 
   @override
