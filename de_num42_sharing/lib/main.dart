@@ -1,4 +1,6 @@
+import 'package:de_num42_sharing/register.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import 'login.dart';
@@ -6,6 +8,7 @@ import 'login.dart';
 void main() {
   runApp(MyApp());
 }
+//TODO: Add an app bar globaly https://stackoverflow.com/questions/59528216/is-there-a-better-way-to-add-an-appbar-only-once-in-flutter-app-and-use-it-in-al
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -26,7 +29,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key,  required this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -36,6 +39,10 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  List<String> _borrowedItems = ['Spiel','Bücher','Autoanhänger','Hochdruckreiniger',
+    'Beamer','Drohne','Teppichreiniger', 'Bohrmaschiene', 'Festbank', 'Vertikutierer',
+    'Fotokamera', 'Dampfreiniger','Schleifmaschiene', 'Bohrhammer', 'Kammeraobjektiv',
+    'Stichsäge', 'Gepäckbox', 'Umgrabmaschiene'];
 
   void _incrementCounter() {
     setState(() {
@@ -58,67 +65,173 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title,
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
+        title: TextButton(
+          child: Text(
+            widget.title,
+            style: TextStyle(
+                fontSize: 25.0,
+                fontWeight: FontWeight.w900,
+                color: Colors.black),
+          ),
+          onPressed: () {
+            Navigator.popUntil(context, ModalRoute.withName('/'));
+          },
+        ),
         actions: [
           Container(
             margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-            child:OutlinedButton(
+            child: OutlinedButton(
                 style: TextButton.styleFrom(
                   primary: Color.fromRGBO(21, 128, 61, 1),
                 ),
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('This is a snackbar')));
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
                 },
                 child: Text("Einloggen")),
           ),
-         Container(
-           margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-           child:TextButton(
-             child: Text("Registrieren"),
-             style: TextButton.styleFrom(
-               padding: const EdgeInsets.all(16.0),
-               primary: Color.fromRGBO(220, 252, 231, 1),
-               backgroundColor: Color.fromRGBO(21, 128, 61, 1),
-             ),
-             onPressed: () {
-               Navigator.push(context,MaterialPageRoute(builder:(context) => const LoginRoute()),
-               );
-             },
-           ),
-         ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
+            child: TextButton(
+              child: Text("Registrieren"),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.all(16.0),
+                primary: Color.fromRGBO(220, 252, 231, 1),
+                backgroundColor: Color.fromRGBO(21, 128, 61, 1),
+              ),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const RegisterPage(title: 'SHARING.'),
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Teilen macht',
-              style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
-            ),
-            GradientText(
-              'glücklich.',
-              style: TextStyle( fontSize: 40.0, ),
-              gradientType: GradientType.radial,
-              radius: 2.5,
-              colors: [ Color.fromRGBO(29, 78, 216, 1),
-                Color.fromRGBO(126, 34, 206, 1),
-                Color.fromRGBO(190, 24, 93, 1),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Teilen macht',
+                  style: TextStyle(
+                      overflow: TextOverflow.fade,
+                      fontSize: 40.0,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w900),
+                ),
+                GradientText(
+                  'glücklich.',
+                  style: TextStyle(
+                      fontSize: 40.0,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w900),
+                  gradientType: GradientType.radial,
+                  radius: 2.5,
+                  colors: [
+                    Color.fromRGBO(29, 78, 216, 1),
+                    Color.fromRGBO(126, 34, 206, 1),
+                    Color.fromRGBO(190, 24, 93, 1),
+                  ],
+                ),
+                Container(
+                  child: Text(
+                    'Hier kannst Du deine Sachen einfach mit Bekannten teilen.',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                ),
+                Text(
+                  'Und behältst dabei den Überblick',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
+                  child: TextButton(
+                    child: Text("Kostenlos Registrieren"),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.all(22.0),
+                      primary: Color.fromRGBO(255, 255, 255, 1.0),
+                      backgroundColor: Color.fromRGBO(120, 18, 165, 1.0),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const RegisterPage(title: 'SHARING.'),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Text(
+                  'Kein Spam. Alle deine Daten sind jederzeit löschbar',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w100,
+                    color: Colors.grey,
+                    fontSize: 10.0,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 50, 0, 10),
+                  child: Text(
+                    'Das leihen & verleihen Andere',
+                    style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                        fontSize: 50.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+                  child: ShaderMask(
+                    shaderCallback: (Rect rect) {
+                      return LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.transparent, Colors.purple],
+                        stops: [ 0.01, 1.0], // 10% purple, 80% transparent, 10% purple
+                      ).createShader(rect);
+                    },
+                    blendMode: BlendMode.dstOut,
+                    child: Wrap(
+                      children: List.generate(18,
+                              (index){
+                        return
+                         Card(
+                            color: Colors.white70,
+                            child: Container(
+                                margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                padding: const EdgeInsets.all(10),
+                               child: Text(_borrowedItems.elementAt(index)),
+                          ),
+                        );
+
+                              },
+                      ),
+                    )
+                  ),
+                ),
               ],
             ),
-            Text('glücklich.'),
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
