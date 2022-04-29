@@ -1,7 +1,9 @@
-import 'package:de_num42_sharing/main.dart';
+import 'dataProtection.dart';
+import 'main.dart';
 import 'package:flutter/material.dart';
-import 'package:de_num42_sharing/register.dart';
+import 'register.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:sizer/sizer.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -80,102 +82,79 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Sign in',
+            Text(
+              'Einloggen',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 40,
+                fontSize: 25.sp,
               ),
             ),
-            const SizedBox(
-              height: 60,
+            SizedBox(
+              height: 30.sp,
             ),
             Form(
               key: _formKey,
               child: Column(
                 children: [
-                  TextFormField(
-                    validator: (value) => EmailValidator.validate(value!)
-                        ? null
-                        : "Please enter a valid email",
-                    maxLines: 1,
-                    decoration: InputDecoration(
-                      hintText: 'Enter your email',
-                      prefixIcon: const Icon(Icons.email),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  Container(
+                    width: 70.w,
+                    margin: EdgeInsets.fromLTRB(15.w, 2.h, 15.w, 0.h),
+                    child: TextFormField(
+                      validator: (value) => EmailValidator.validate(value!)
+                          ? null
+                          : "Please enter a valid email",
+                      maxLines: 1,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your email',
+                        prefixIcon: const Icon(Icons.email),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      return null;
-                    },
-                    maxLines: 1,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.lock),
-                      hintText: 'Enter your password',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  Container(
+                    width: 70.w,
+                    margin: EdgeInsets.fromLTRB(15.w, 2.h, 15.w, 0.h),
+                    child: TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        return null;
+                      },
+                      maxLines: 1,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock),
+                        hintText: 'Enter your password',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
                   ),
-                  CheckboxListTile(
-                    title: const Text("Remember me"),
-                    contentPadding: EdgeInsets.zero,
-                    value: rememberValue,
-                    activeColor: Theme.of(context).colorScheme.primary,
-                    onChanged: (newValue) {
-                      setState(() {
-                        rememberValue = newValue!;
-                      });
-                    },
-                    controlAffinity: ListTileControlAffinity.leading,
-                  ),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: 5.h,
                   ),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {}
                     },
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
+                      padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 2.h),
+                      primary: Color.fromRGBO(21, 128, 61, 1),
                     ),
-                    child: const Text(
-                      'Sign in',
+                    child:  Text(
+                      'Einloggen',
                       style: TextStyle(
+                        fontSize: 9.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('Not registered yet?'),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const RegisterPage(title: 'Register UI'),
-                            ),
-                          );
-                        },
-                        child: const Text('Create an account'),
-                      ),
-                    ],
                   ),
                 ],
               ),
@@ -183,6 +162,74 @@ class _LoginPageState extends State<LoginPage> {
           ],
         )),
       ),
+      persistentFooterButtons: [
+        Center(
+          child: Align(
+            alignment: Alignment.center,
+            child:Wrap(
+            children: [
+              TextButton(
+                  onPressed: (){},
+                  child: Text(
+                    'Impressum',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+              ),
+              TextButton(
+                onPressed: (){
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DataProtectionPage(),
+                    ),
+                  );
+                },
+                child: Text(
+                  'Datenschutzerklärung',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: (){},
+                child: Text(
+                  'Nutzungsbedingungen',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: (){},
+                child: Text(
+                  'Grundsätze',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: (){},
+                child: Text(
+                  'Hilfe & Feedback',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          ),
+        ),
+      ],
     );
   }
 }

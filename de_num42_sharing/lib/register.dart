@@ -1,7 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:de_num42_sharing/main.dart';
-import 'package:de_num42_sharing/login.dart';
+import 'main.dart';
+import 'login.dart';
+import 'package:sizer/sizer.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key, required this.title}) : super(key: key);

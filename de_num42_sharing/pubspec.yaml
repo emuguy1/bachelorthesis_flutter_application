@@ -31,6 +31,7 @@ dependencies:
   simple_gradient_text: ^1.2.3
   email_validator: ^2.0.1
   sizer: ^2.0.15
+  flutter_widget_from_html_core: ^0.8.5
 
 dev_dependencies:
   flutter_test:
