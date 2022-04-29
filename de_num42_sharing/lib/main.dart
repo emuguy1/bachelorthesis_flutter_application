@@ -1,8 +1,7 @@
-import 'package:de_num42_sharing/register.dart';
+import 'register.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
-
+import 'package:sizer/sizer.dart';
 import 'login.dart';
 
 void main() {
@@ -14,17 +13,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SHARING - einfach Dinge teilen',
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.green,
+    return Sizer(builder: (context, orientation, deviceType) {
+      return MaterialApp(
+        title: 'SHARING - einfach Dinge teilen',
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.green,
+          ),
+          primaryColor: Colors.white,
         ),
-        primaryColor: Colors.white,
-      ),
-      home: MyHomePage(title: 'SHARING.'),
-    );
+        home: MyHomePage(title: 'SHARING.'),
+      );
+    });
   }
 }
 
@@ -38,11 +39,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  List<String> _borrowedItems = ['Spiel','Bücher','Autoanhänger','Hochdruckreiniger',
-    'Beamer','Drohne','Teppichreiniger', 'Bohrmaschiene', 'Festbank', 'Vertikutierer',
-    'Fotokamera', 'Dampfreiniger','Schleifmaschiene', 'Bohrhammer', 'Kammeraobjektiv',
-    'Stichsäge', 'Gepäckbox', 'Umgrabmaschiene'];
+  List<String> _borrowedItems = [
+    'Spiel',
+    'Bücher',
+    'Autoanhänger',
+    'Hochdruckreiniger',
+    'Beamer',
+    'Drohne',
+    'Teppichreiniger',
+    'Bohrmaschiene',
+    'Festbank',
+    'Vertikutierer',
+    'Fotokamera',
+    'Dampfreiniger',
+    'Schleifmaschiene',
+    'Bohrhammer',
+    'Kammeraobjektiv',
+    'Stichsäge',
+    'Gepäckbox',
+    'Umgrabmaschiene'
+  ];
 
   void _incrementCounter() {
     setState(() {
@@ -51,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+
     });
   }
 
@@ -74,7 +90,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: Colors.black),
           ),
           onPressed: () {
-            Navigator.popUntil(context, ModalRoute.withName('/'));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MyHomePage(title: 'SHARING.'),
+              ),
+            );
           },
         ),
         actions: [
@@ -118,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Center(
           child: Container(
-            margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+            margin: const EdgeInsets.fromLTRB(10, 60, 10, 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -126,14 +147,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Teilen macht',
                   style: TextStyle(
                       overflow: TextOverflow.fade,
-                      fontSize: 40.0,
+                      fontSize: 35.sp,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w900),
                 ),
                 GradientText(
                   'glücklich.',
                   style: TextStyle(
-                      fontSize: 40.0,
+                      fontSize: 35.sp,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w900),
                   gradientType: GradientType.radial,
@@ -148,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text(
                     'Hier kannst Du deine Sachen einfach mit Bekannten teilen.',
                     style: TextStyle(
-                      fontSize: 20.0,
+                      fontSize: 13.sp,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -157,15 +178,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 Text(
                   'Und behältst dabei den Überblick',
                   style: TextStyle(
-                    fontSize: 20.0,
+                    fontSize: 13.sp,
                   ),
                 ),
                 Container(
                   margin: const EdgeInsets.fromLTRB(0, 10, 0, 5),
                   child: TextButton(
-                    child: Text("Kostenlos Registrieren"),
+                    child: Text(
+                      "Kostenlos Registrieren",
+                      style: TextStyle(
+                        fontSize: 10.sp,
+                      ),
+                    ),
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(22.0),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 2.h, horizontal: 3.h),
                       primary: Color.fromRGBO(255, 255, 255, 1.0),
                       backgroundColor: Color.fromRGBO(120, 18, 165, 1.0),
                     ),
@@ -183,9 +210,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 Text(
                   'Kein Spam. Alle deine Daten sind jederzeit löschbar',
                   style: TextStyle(
-                    fontWeight: FontWeight.w100,
+                    fontWeight: FontWeight.w300,
                     color: Colors.grey,
-                    fontSize: 10.0,
+                    fontSize: 15.0,
                   ),
                 ),
                 Container(
@@ -193,8 +220,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text(
                     'Das leihen & verleihen Andere',
                     style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                        fontSize: 50.0,
+                      fontWeight: FontWeight.w900,
+                      fontSize:  35.sp,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -202,42 +229,38 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
                   child: ShaderMask(
-                    shaderCallback: (Rect rect) {
-                      return LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.transparent, Colors.purple],
-                        stops: [ 0.01, 1.0], // 10% purple, 80% transparent, 10% purple
-                      ).createShader(rect);
-                    },
-                    blendMode: BlendMode.dstOut,
-                    child: Wrap(
-                      children: List.generate(18,
-                              (index){
-                        return
-                         Card(
-                            color: Colors.white70,
-                            child: Container(
+                      shaderCallback: (Rect rect) {
+                        return LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Colors.purple],
+                          stops: [
+                            0.01,
+                            1.0
+                          ], // 10% purple, 80% transparent, 10% purple
+                        ).createShader(rect);
+                      },
+                      blendMode: BlendMode.dstOut,
+                      child: Wrap(
+                        children: List.generate(
+                          18,
+                          (index) {
+                            return Card(
+                              color: Colors.white70,
+                              child: Container(
                                 margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
                                 padding: const EdgeInsets.all(10),
-                               child: Text(_borrowedItems.elementAt(index)),
-                          ),
-                        );
-
-                              },
-                      ),
-                    )
-                  ),
+                                child: Text(_borrowedItems.elementAt(index)),
+                              ),
+                            );
+                          },
+                        ),
+                      )),
                 ),
               ],
             ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
       ),
     );
   }

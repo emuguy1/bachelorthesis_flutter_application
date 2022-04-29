@@ -1,6 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:de_num42_sharing/register.dart';
+import 'package:de_num42_sharing/main.dart';
 import 'package:de_num42_sharing/login.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -29,7 +29,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 color: Colors.black),
           ),
           onPressed: () {
-            Navigator.popUntil(context, ModalRoute.withName('/'));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MyHomePage(title: 'SHARING.'),
+              ),
+            );
           },
         ),
         actions: [

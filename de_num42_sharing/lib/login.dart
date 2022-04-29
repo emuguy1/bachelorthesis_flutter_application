@@ -29,7 +29,12 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.black),
           ),
           onPressed: () {
-            Navigator.popUntil(context, ModalRoute.withName('/'));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MyHomePage(title: 'SHARING.'),
+              ),
+            );
           },
         ),
         actions: [
