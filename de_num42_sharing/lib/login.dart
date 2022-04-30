@@ -1,7 +1,10 @@
-import 'dataProtection.dart';
-import 'main.dart';
+import 'package:de_num42_sharing/imprint.dart';
+import 'package:de_num42_sharing/dataProtection.dart';
+import 'package:de_num42_sharing/main.dart';
+import 'package:de_num42_sharing/principles.dart';
+import 'package:de_num42_sharing/terms.dart';
 import 'package:flutter/material.dart';
-import 'register.dart';
+import 'package:de_num42_sharing/register.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:sizer/sizer.dart';
 
@@ -169,7 +172,14 @@ class _LoginPageState extends State<LoginPage> {
             child:Wrap(
             children: [
               TextButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImprintPage(),
+                      ),
+                    );
+                  },
                   child: Text(
                     'Impressum',
                     style: TextStyle(
@@ -180,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextButton(
                 onPressed: (){
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => DataProtectionPage(),
@@ -196,7 +206,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               TextButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TermsPage(),
+                    ),
+                  );
+                },
                 child: Text(
                   'Nutzungsbedingungen',
                   style: TextStyle(
@@ -206,19 +223,16 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               TextButton(
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PrinciplesPage(),
+                    ),
+                  );
+                },
                 child: Text(
                   'Grundsätze',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: (){},
-                child: Text(
-                  'Hilfe & Feedback',
                   style: TextStyle(
                     color: Colors.grey,
                     decoration: TextDecoration.underline,

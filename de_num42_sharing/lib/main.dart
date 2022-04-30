@@ -1,8 +1,11 @@
+import 'dataProtection.dart';
+import 'imprint.dart';
 import 'register.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:sizer/sizer.dart';
 import 'login.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
   runApp(MyApp());
@@ -67,7 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-
     });
   }
 
@@ -221,7 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     'Das leihen & verleihen Andere',
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
-                      fontSize:  35.sp,
+                      fontSize: 35.sp,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -257,11 +259,119 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       )),
                 ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 5.h, horizontal:5.w ),
+                  child:Text(
+                      'Kreise machen Verleihen einfach, für ALLE.',
+                    style: TextStyle(
+                      fontSize: 21.sp,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(3.w, 0.h, 3.w, 5.0),
+                  child:RichText(
+                      text:TextSpan(
+                        style: TextStyle(
+                          fontSize: 8.sp,
+                          color: Colors.black,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(text:'Kreise sind unsere '),
+                          TextSpan(text:'Gruppen',
+                              style: TextStyle(
+                                  fontSize: 9.sp,
+                                  fontWeight: FontWeight.w900
+                              ),
+                          ),
+                          TextSpan(
+                              text:',mit einem wichtigen Unterschied zu vielen '
+                                  'anderen Plattformen. Jeder sollte nur in '
+                                  'Kreisen aus Persibnen sein, die sich '),
+                          TextSpan(text:'regelmäßig treffen',
+                              style: TextStyle(
+                                  fontSize: 9.sp,
+                                  fontWeight: FontWeight.w900
+                              ),
+                          ),
+                          TextSpan(text:'.'),
+                        ],
+                      )
+                  ),
+                ),
+                SvgPicture.asset('assets/undraw_connection.svg'),
               ],
             ),
           ),
         ),
       ),
+      persistentFooterButtons: [
+        Center(
+          child: Align(
+            alignment: Alignment.center,
+            child: Wrap(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ImprintPage(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Impressum',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DataProtectionPage(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Datenschutzerklärung',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Nutzungsbedingungen',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'Grundsätze',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
