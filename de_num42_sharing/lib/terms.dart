@@ -1,3 +1,5 @@
+import 'package:de_num42_sharing/widget/topBar.dart';
+
 import 'dataProtection.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
@@ -21,63 +23,7 @@ class _TermsPageState extends State<TermsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: TextButton(
-          child: Text(
-            'SHARING.',
-            style: TextStyle(
-                fontSize: 25.0,
-                fontWeight: FontWeight.w900,
-                color: Colors.black),
-          ),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MyHomePage(title: 'SHARING.'),
-              ),
-            );
-          },
-        ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-            child: OutlinedButton(
-                style: TextButton.styleFrom(
-                  primary: Color.fromRGBO(21, 128, 61, 1),
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    ),
-                  );
-                },
-                child: Text("Einloggen")),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-            child: TextButton(
-              child: Text("Registrieren"),
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.all(16.0),
-                primary: Color.fromRGBO(220, 252, 231, 1),
-                backgroundColor: Color.fromRGBO(21, 128, 61, 1),
-              ),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RegisterPage(title: 'SHARING.'),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+      appBar: topBar(context,false,false,{}),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(vertical:5.w,horizontal:10.h),

@@ -1,3 +1,5 @@
+import 'package:de_num42_sharing/widget/topBar.dart';
+
 import 'dataProtection.dart';
 import 'imprint.dart';
 import 'register.dart';
@@ -82,62 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        title: TextButton(
-          child: Text(
-            widget.title,
-            style: TextStyle(
-                fontSize: 25.0,
-                fontWeight: FontWeight.w900,
-                color: Colors.black),
-          ),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MyHomePage(title: 'SHARING.'),
-              ),
-            );
-          },
-        ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-            child: OutlinedButton(
-                style: TextButton.styleFrom(
-                  primary: Color.fromRGBO(21, 128, 61, 1),
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    ),
-                  );
-                },
-                child: Text("Einloggen")),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-            child: TextButton(
-              child: Text("Registrieren"),
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.all(16.0),
-                primary: Color.fromRGBO(220, 252, 231, 1),
-                backgroundColor: Color.fromRGBO(21, 128, 61, 1),
-              ),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RegisterPage(title: 'SHARING.'),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+      appBar: topBar(context,false,false),
       body: SingleChildScrollView(
         child: Center(
           child: Container(
@@ -260,9 +207,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       )),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 5.h, horizontal:5.w ),
-                  child:Text(
-                      'Kreise machen Verleihen einfach, für ALLE.',
+                  margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                  child: Text(
+                    'Kreise machen Verleihen einfach, für ALLE.',
                     style: TextStyle(
                       fontSize: 21.sp,
                       fontWeight: FontWeight.w900,
@@ -272,36 +219,104 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(3.w, 0.h, 3.w, 5.0),
-                  child:RichText(
-                      text:TextSpan(
+                  child: RichText(
+                      text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 8.sp,
+                      color: Colors.black,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(text: 'Kreise sind unsere '),
+                      TextSpan(
+                        text: 'Gruppen',
                         style: TextStyle(
-                          fontSize: 8.sp,
-                          color: Colors.black,
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(text:'Kreise sind unsere '),
-                          TextSpan(text:'Gruppen',
-                              style: TextStyle(
-                                  fontSize: 9.sp,
-                                  fontWeight: FontWeight.w900
-                              ),
-                          ),
-                          TextSpan(
-                              text:',mit einem wichtigen Unterschied zu vielen '
-                                  'anderen Plattformen. Jeder sollte nur in '
-                                  'Kreisen aus Persibnen sein, die sich '),
-                          TextSpan(text:'regelmäßig treffen',
-                              style: TextStyle(
-                                  fontSize: 9.sp,
-                                  fontWeight: FontWeight.w900
-                              ),
-                          ),
-                          TextSpan(text:'.'),
-                        ],
-                      )
+                            fontSize: 8.sp, fontWeight: FontWeight.w900),
+                      ),
+                      TextSpan(
+                          text: ',mit einem wichtigen Unterschied zu vielen '
+                              'anderen Plattformen. Jeder sollte nur in '
+                              'Kreisen aus Persibnen sein, die sich '),
+                      TextSpan(
+                        text: 'regelmäßig treffen',
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.w900),
+                      ),
+                      TextSpan(text: '.'),
+                    ],
+                  )),
+                ),
+                Container(
+                  width: 70.w,
+                  margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 2.w),
+                  child: SvgPicture.asset('assets/undraw_connection.svg'),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                  child: Text(
+                    'Wir verleihen bereits an Personen, die wir kennen..',
+                    style: TextStyle(
+                      fontSize: 21.sp,
+                      fontWeight: FontWeight.w900,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                SvgPicture.asset('assets/undraw_connection.svg'),
+                Container(
+                  margin: EdgeInsets.fromLTRB(3.w, 0.h, 3.w, 5.0),
+                  child: RichText(
+                      text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 8.sp,
+                      color: Colors.black,
+                    ),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text:
+                              'Verleihen erfolgt auch heute schon häufig in kleinen '),
+                      TextSpan(
+                        text: 'Kreisen',
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.w900),
+                      ),
+                      TextSpan(
+                          text:
+                              ' aus Freunden, Verwandten und Bekannten. Wir haben '),
+                      TextSpan(
+                        text:
+                            'Vertrauen zu den Personen, die wir bereits kennen',
+                        style: TextStyle(
+                            fontSize: 8.sp, fontWeight: FontWeight.w900),
+                      ),
+                      TextSpan(text: ' und verleihen hier gerne Dinge.'),
+                    ],
+                  )),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(3.w, 20.0, 3.w, 5.0),
+                  child: RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: 8.sp,
+                        color: Colors.black,
+                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Verleihen macht Freude.',
+                          style: TextStyle(
+                              fontSize: 8.sp, fontWeight: FontWeight.w900),
+                        ),
+                        TextSpan(
+                            text: ' Verleihen gibt Gelegenheit zu kurzen '
+                                'Gesprächen und erlaubt uns, anderen im direkten '
+                                'Umfeld zu helfen. Warum versuchen viele Plattformen, '
+                                'die wir finden konnten, das Verleihen unter Fremden '
+                                'zu ermöglichen anstatt die riesige Macht der Freunde '
+                                'zu nutzen? Wir wissen es nicht, aber wollen nicht '
+                                'den gleichen Fehler machen.'),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

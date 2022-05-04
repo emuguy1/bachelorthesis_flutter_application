@@ -2,7 +2,9 @@ import 'package:de_num42_sharing/imprint.dart';
 import 'package:de_num42_sharing/dataProtection.dart';
 import 'package:de_num42_sharing/main.dart';
 import 'package:de_num42_sharing/principles.dart';
+import 'package:de_num42_sharing/profile.dart';
 import 'package:de_num42_sharing/terms.dart';
+import 'package:de_num42_sharing/widget/topBar.dart';
 import 'package:flutter/material.dart';
 import 'package:de_num42_sharing/register.dart';
 import 'package:email_validator/email_validator.dart';
@@ -23,63 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: TextButton(
-          child: Text(
-            'SHARING.',
-            style: TextStyle(
-                fontSize: 25.0,
-                fontWeight: FontWeight.w900,
-                color: Colors.black),
-          ),
-          onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MyHomePage(title: 'SHARING.'),
-              ),
-            );
-          },
-        ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-            child: OutlinedButton(
-                style: TextButton.styleFrom(
-                  primary: Color.fromRGBO(21, 128, 61, 1),
-                ),
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    ),
-                  );
-                },
-                child: Text("Einloggen")),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
-            child: TextButton(
-              child: Text("Registrieren"),
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.all(16.0),
-                primary: Color.fromRGBO(220, 252, 231, 1),
-                backgroundColor: Color.fromRGBO(21, 128, 61, 1),
-              ),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const RegisterPage(title: 'SHARING.'),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+      appBar: topBar(context,false,false),
       body: Container(
         child: Center(
             child: Column(
@@ -145,7 +91,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      //TODO: Validierung und Anmeldung für jetzt erstmal überleitung
                       if (_formKey.currentState!.validate()) {}
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePage(),
+                          ),
+                        );
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 2.h),
