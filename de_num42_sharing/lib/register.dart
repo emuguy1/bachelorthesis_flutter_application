@@ -1,3 +1,4 @@
+import 'package:de_num42_sharing/widget/persistentFooter.dart';
 import 'package:de_num42_sharing/widget/topBar2.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -158,6 +159,9 @@ class _RegisterPageState extends State<RegisterPage> {
           ],
         ),
       ),
+      persistentFooterButtons: [
+        PersistentFooter(),
+      ],
     );
   }
 }

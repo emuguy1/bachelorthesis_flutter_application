@@ -1,3 +1,4 @@
+import 'package:de_num42_sharing/widget/persistentFooter.dart';
 import 'package:de_num42_sharing/widget/topBar.dart';
 
 import 'dataProtection.dart';
@@ -41,6 +42,9 @@ class _ImprintPageState extends State<ImprintPage> {
             factoryBuilder: () => MyWidgetFactory(),),
         ),
       ),
+      persistentFooterButtons: [
+        PersistentFooter(),
+      ],
     );
   }
 }

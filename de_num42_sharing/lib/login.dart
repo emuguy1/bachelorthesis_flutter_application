@@ -4,6 +4,7 @@ import 'package:de_num42_sharing/main.dart';
 import 'package:de_num42_sharing/principles.dart';
 import 'package:de_num42_sharing/profile.dart';
 import 'package:de_num42_sharing/terms.dart';
+import 'package:de_num42_sharing/widget/persistentFooter.dart';
 import 'package:de_num42_sharing/widget/topBar.dart';
 import 'package:flutter/material.dart';
 import 'package:de_num42_sharing/register.dart';
@@ -119,83 +120,7 @@ class _LoginPageState extends State<LoginPage> {
         )),
       ),
       persistentFooterButtons: [
-        Center(
-          child: Align(
-            alignment: Alignment.center,
-            child:Wrap(
-            children: [
-              TextButton(
-                  onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ImprintPage(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Impressum',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-              ),
-              TextButton(
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DataProtectionPage(),
-                    ),
-                  );
-                },
-                child: Text(
-                  'Datenschutzerklärung',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TermsPage(),
-                    ),
-                  );
-                },
-                child: Text(
-                  'Nutzungsbedingungen',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PrinciplesPage(),
-                    ),
-                  );
-                },
-                child: Text(
-                  'Grundsätze',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          ),
-        ),
+        PersistentFooter(),
       ],
     );
   }

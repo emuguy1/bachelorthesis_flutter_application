@@ -1,3 +1,4 @@
+import 'package:de_num42_sharing/widget/persistentFooter.dart';
 import 'package:de_num42_sharing/widget/topBar.dart';
 import 'package:fwfh_selectable_text/fwfh_selectable_text.dart';
 import 'main.dart';
@@ -556,6 +557,9 @@ class _DataProtectionPageState extends State<DataProtectionPage> {
           ),
         ),
       ),
+      persistentFooterButtons: [
+        PersistentFooter(),
+      ],
     );
   }
 }

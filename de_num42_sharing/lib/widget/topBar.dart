@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:de_num42_sharing/main.dart';
 import 'package:de_num42_sharing/register.dart';
 import 'package:de_num42_sharing/login.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 PreferredSizeWidget topBar(BuildContext context, bool isLoggedIn, bool hasBackArrow, [dynamic otherData]) {
   return AppBar(
@@ -9,10 +10,13 @@ PreferredSizeWidget topBar(BuildContext context, bool isLoggedIn, bool hasBackAr
     title: TextButton(
       child: Text(
         "Sharing.",
-        style: TextStyle(
+        style: GoogleFonts.roboto(
+        textStyle: TextStyle(
             fontSize: 25.0,
             fontWeight: FontWeight.w900,
             color: Colors.black),
+        )
+
       ),
       onPressed: () {
         Navigator.pushReplacement(

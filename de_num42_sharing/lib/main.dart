@@ -1,3 +1,4 @@
+import 'package:de_num42_sharing/widget/persistentFooter.dart';
 import 'package:de_num42_sharing/widget/topBar.dart';
 
 import 'dataProtection.dart';
@@ -6,6 +7,7 @@ import 'register.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:sizer/sizer.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -22,6 +24,9 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         title: 'SHARING - einfach Dinge teilen',
         theme: ThemeData(
+          textTheme: GoogleFonts.robotoTextTheme(
+            Theme.of(context).textTheme,
+          ),
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.white,
             foregroundColor: Colors.green,
@@ -323,69 +328,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       persistentFooterButtons: [
-        Center(
-          child: Align(
-            alignment: Alignment.center,
-            child: Wrap(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ImprintPage(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Impressum',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DataProtectionPage(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Datenschutzerklärung',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Nutzungsbedingungen',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Grundsätze',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        PersistentFooter(),
       ],
     );
   }
