@@ -9,6 +9,8 @@ import 'package:de_num42_sharing/widget/topBar.dart';
 import 'package:flutter/material.dart';
 import 'package:de_num42_sharing/register.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:graphql/client.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 class LoginPage extends StatefulWidget {
@@ -62,6 +64,29 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
+                  ),
+
+                  Mutation(
+                    options: MutationOptions(
+                      document: gql("""mutation login {
+                        login(email: "asol@num42.de", password: "password")
+                      }
+                      """),
+                      onCompleted: (dynamic resultData){
+                        print(resultData);
+                      },
+                      update: (GraphQLDataProxy cache, QueryResult? result) {
+                        return cache;
+                      },
+                    ),
+                    builder: (RunMutation runMutation, QueryResult? result) {
+                      return FloatingActionButton(
+                        onPressed: () => runMutation({
+                        }),
+                        tooltip: 'Star',
+                        child: Icon(Icons.star),
+                      );
+                    },
                   ),
                   const SizedBox(
                     height: 20,

@@ -35,6 +35,13 @@ dependencies:
   fwfh_selectable_text: ^0.8.3
   flutter_svg: ^1.0.3
   google_fonts: ^2.3.2
+  provider: ^6.0.0
+
+    # …………………………… graphql
+  graphql_flutter: ^5.0.0
+  graphql: ^5.1.2-beta.1
+  json_serializable: ^3.2.3
+  hive: ^2.2.1
 
 dev_dependencies:
   flutter_test:

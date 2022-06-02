@@ -1,18 +1,40 @@
 import 'package:de_num42_sharing/widget/persistentFooter.dart';
 import 'package:de_num42_sharing/widget/topBar.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
-import 'dataProtection.dart';
-import 'imprint.dart';
 import 'register.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 
-void main() {
-  runApp(MyApp());
+// https://github.com/flutter/flutter/issues/36126#issuecomment-596215587
+
+final graphqlEndpoint = 'http://192.168.188.69:4000/graphql/graphiql';
+final subscriptionEndpoint = 'ws://192.168.188.69:4000/subscriptions';
+
+final _httpLink = HttpLink(
+  'https://api.github.com/graphql/graphiql',
+);
+
+final _authLink = AuthLink(
+  getToken: () async => 'Bearer dwa',
+);
+
+void main() async {
+  ValueNotifier<GraphQLClient> client = ValueNotifier(
+    GraphQLClient(
+      link: HttpLink(graphqlEndpoint),
+      cache: GraphQLCache(store: InMemoryStore()),
+    ),
+  );
+
+  runApp(GraphQLProvider(
+    client: client,
+    child: MyApp(),
+  ));
 }
 //TODO: Add an app bar globaly https://stackoverflow.com/questions/59528216/is-there-a-better-way-to-add-an-appbar-only-once-in-flutter-app-and-use-it-in-al
 
@@ -21,21 +43,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
-      return MaterialApp(
-        title: 'SHARING - einfach Dinge teilen',
-        theme: ThemeData(
-          textTheme: GoogleFonts.robotoTextTheme(
-            Theme.of(context).textTheme,
+        return MaterialApp(
+          title: 'SHARING - einfach Dinge teilen',
+          theme: ThemeData(
+            textTheme: GoogleFonts.robotoTextTheme(
+              Theme.of(context).textTheme,
+            ),
+            appBarTheme: const AppBarTheme(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.green,
+            ),
+            primaryColor: Colors.white,
           ),
-          appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.green,
-          ),
-          primaryColor: Colors.white,
-        ),
-        home: MyHomePage(title: 'SHARING.'),
-      );
-    });
+          home: MyHomePage(title: 'SHARING.'),
+        );
+      });
   }
 }
 
@@ -89,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: topBar(context,false,false),
+      appBar: topBar(context, false, false),
       body: SingleChildScrollView(
         child: Center(
           child: Container(
@@ -97,6 +119,37 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Query(
+                  options: QueryOptions(
+                    document: gql("""query {
+  me {
+    id
+  }
+}
+"""),
+                  ),
+                  builder: (QueryResult result, {fetchMore, refetch}) {
+                    if (result.hasException) {
+                      if(result.exception?.graphqlErrors != null){
+                        return Text(result.exception!.graphqlErrors.first.message.toString());
+                      }else{
+                        return Text(result.exception.toString());
+                      }
+
+                    }
+
+                    if (result.isLoading) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    final productList = result.data?['products']['edges'];
+                    print(productList);
+
+                    return Text("Something");
+                  },
+                ),
                 Text(
                   'Teilen macht',
                   style: TextStyle(
