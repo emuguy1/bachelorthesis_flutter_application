@@ -56,6 +56,12 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.white,
           ),
           home: MyHomePage(title: 'SHARING.'),
+          builder: (BuildContext context, Widget? widget){
+            ErrorWidget.builder = (FlutterErrorDetails errorDetails){
+              return CustomError(errorDetails: errorDetails);
+            };
+            return widget!;
+          },
         );
       });
   }
@@ -150,6 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Text("Something");
                   },
                 ),
+                if(box1.isNotEmpty && box1.get("login")!= null)Text(box1.get("login")),
                 Text(
                   'Teilen macht',
                   style: TextStyle(
