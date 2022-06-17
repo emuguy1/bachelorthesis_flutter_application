@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:de_num42_sharing/profile.dart';
 import 'package:de_num42_sharing/util/CustomError.dart';
 import 'package:de_num42_sharing/util/GraphQLConfiguration.dart';
 import 'package:de_num42_sharing/widget/persistentFooter.dart';
@@ -62,6 +63,7 @@ void main() async {
 //TODO: Add an app bar globaly https://stackoverflow.com/questions/59528216/is-there-a-better-way-to-add-an-appbar-only-once-in-flutter-app-and-use-it-in-al
 
 class MyApp extends StatelessWidget {
+  final loggedIn= box1.get("login")!=null;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -78,7 +80,7 @@ class MyApp extends StatelessWidget {
             ),
             primaryColor: Colors.white,
           ),
-          home: MyHomePage(title: 'SHARING.'),
+          home: !loggedIn ? MyHomePage(title: 'SHARING.') : ProfilePage(),
           builder: (BuildContext context, Widget? widget){
             isLoggedIn= box1.get("login")!=null;
             ErrorWidget.builder = (FlutterErrorDetails errorDetails){
@@ -95,11 +97,13 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   List<String> _borrowedItems = [
     'Spiel',
     'Bücher',
@@ -152,6 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     //changeClient();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
