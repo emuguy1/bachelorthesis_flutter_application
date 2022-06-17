@@ -1,6 +1,7 @@
 
 import 'package:de_num42_sharing/profile.dart';
 import 'package:de_num42_sharing/util/GraphQLConfiguration.dart';
+import 'package:de_num42_sharing/util/GraphQLQueries.dart';
 import 'package:de_num42_sharing/widget/persistentFooter.dart';
 import 'package:de_num42_sharing/widget/topBar.dart';
 import 'package:flutter/material.dart';
@@ -119,11 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Mutation(
                     options: MutationOptions(
-                      document: gql("""mutation login(\$email: String!, \$password: String!) {
-                        login(email: \$email, password: \$password)
-                      }
-                      """),
-
+                      document: gql(loginMutation),
                       onCompleted: (dynamic resultData) {
                         box1.put('login', resultData['login']);
                         Navigator.push(
@@ -178,11 +175,15 @@ class _LoginPageState extends State<LoginPage> {
     print(email);
     print(password);
 
-      QueryResult result = await _client.mutate(MutationOptions(
-          document: gql("""mutation login {
-                        login(email: "$email", password: "$password")
-                      }
-                      """)));
+      QueryResult result = await _client.mutate(
+          MutationOptions(
+            document: gql(loginMutation),
+            variables: {
+              "email": email,
+              "password": password
+            }
+          )
+      );
       if (result.hasException) {
         print(result);
         return null;

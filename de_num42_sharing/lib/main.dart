@@ -4,7 +4,6 @@ import 'package:de_num42_sharing/profile.dart';
 import 'package:de_num42_sharing/util/CustomError.dart';
 import 'package:de_num42_sharing/util/GraphQLConfiguration.dart';
 import 'package:de_num42_sharing/widget/persistentFooter.dart';
-import 'package:de_num42_sharing/widget/topBar.dart';
 import 'package:de_num42_sharing/widget/topBar2.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -42,7 +41,6 @@ void main() async {
     graphqlEndpoint= 'http://192.168.188.69:4000/graphql/graphiql?authorization='+box1.get("login")+"&";
     GraphQLConfiguration.setToken(box1.get("login"));
     isLoggedIn=true;
-    //print(graphqlEndpoint);
   }else{
     isLoggedIn=false;
   }
@@ -124,40 +122,10 @@ class _MyHomePageState extends State<MyHomePage> {
     'Gepäckbox',
     'Umgrabmaschiene'
   ];
-  final isLoggedIn= box1.get("login") == null;
-
-  var client = graphQLConfig.client;
-
-
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-    });
-  }
-
-  void changeClient(){
-    setState((){
-      final authToken = box1.get("login");
-      if(authToken != null){
-        graphQLConfig.addToken(authToken);
-      }
-      else{
-        GraphQLConfiguration.removeToken();
-        graphQLConfig.overwriteClient();
-      }
-        client=graphQLConfig.client;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
 
-    //changeClient();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -173,42 +141,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Query(
-                  options: QueryOptions(
-                    document: gql("""
-                       query me {
-                        me {
-                          id
-                          firstName
-                          lastName
-                        }
-                      }
-                    """),
-                  ),
-                  builder: (QueryResult result, {fetchMore, refetch}) {
-                    print(result);
-                    print(graphQLConfig.client);
-                    if (result.hasException) {
-                      if(result.exception?.graphqlErrors != null){
-                        return Text(result.exception!.graphqlErrors.first.message.toString());
-                      }else{
-                        return Text(result.exception.toString());
-                      }
-
-                    }
-
-                    if (result.isLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-
-                    final productList = result.data!["me"]["firstName"];
-                    print(productList);
-
-                    return Text("Something");
-                  },
-                ),
                 Text(
                   'Teilen macht',
                   style: TextStyle(
