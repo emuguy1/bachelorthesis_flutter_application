@@ -102,13 +102,10 @@ class _TopBar extends State<TopBar>{
                 backgroundColor: Color.fromRGBO(21, 128, 61, 1),
               ),
               onPressed: () {
-                box1.delete("login");
-                GraphQLConfiguration.removeToken();
-                // MyApp();
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyHomePage(title: 'Sharing.',),
+                    builder: (context) => ConversationsPage(),
                   ),
                 );
               },
@@ -126,7 +123,7 @@ class _TopBar extends State<TopBar>{
               ),
               onPressed: () {
                 isLoggedIn = false;
-                box1.delete("login");
+                box1.clear();
                 GraphQLConfiguration.removeToken();
                 graphQLConfig.deleteToken();
                 Navigator.pushReplacement(

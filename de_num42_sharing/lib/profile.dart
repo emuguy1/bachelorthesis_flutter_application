@@ -1,5 +1,6 @@
-import 'package:de_num42_sharing/data/model/item.dart';
+import 'package:de_num42_sharing/data/model/itemModel.dart';
 import 'package:de_num42_sharing/main.dart';
+import 'package:de_num42_sharing/util/GraphQLQueries.dart';
 import 'package:de_num42_sharing/widget/itemCard.dart';
 import 'package:de_num42_sharing/widget/topBar2.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _ProfilePageState extends State<ProfilePage> {
   var rememberValue = false;
   var id = box1.get("meId");
   var cursor = "";
-  var itemList = <Item>[];
+  var itemList = <ItemModel>[];
 
   reloadList() {
     id = box1.get("meId");
@@ -36,82 +37,66 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: TopBar(hasBackArrow: false),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            child: Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                SizedBox(
-                  height: 5.h,
-                ),
-                Query(
-                  options: QueryOptions(
-                    document: gql("""
-                       query me {
-                        me {
-                          id
-                          firstName
-                          lastName
-                        }
-                      }
-                    """),
+          SizedBox(
+            height: 5.h,
+          ),
+          Query(
+            options: QueryOptions(
+              document: gql(meQuery),
+            ),
+            builder: (QueryResult result, {fetchMore, refetch}) {
+              if (result.hasException) {
+                if (result.exception?.graphqlErrors != null) {
+                  return Text(
+                      result.exception!.graphqlErrors.first.message.toString());
+                } else {
+                  return Text(result.exception.toString());
+                }
+              }
+
+              if (result.isLoading) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              if (box1.get("meId") == null ||
+                  box1.get("meId") != result.data!["me"]["id"]) {
+                box1.put("meId", result.data!["me"]["id"]);
+                reloadList();
+              }
+              if (itemList.isEmpty) {
+                reloadList();
+              }
+
+              return Container(
+                margin: EdgeInsets.fromLTRB(5.w, 0, 5.w, 0),
+                child:Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    result.data!["me"]["firstName"],
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 5.h,
+                    ),
                   ),
-                  builder: (QueryResult result, {fetchMore, refetch}) {
-                    print(result);
-                    print(graphQLConfig.client);
-                    if (result.hasException) {
-                      if (result.exception?.graphqlErrors != null) {
-                        return Text(result
-                            .exception!.graphqlErrors.first.message
-                            .toString());
-                      } else {
-                        return Text(result.exception.toString());
-                      }
-                    }
-
-                    if (result.isLoading) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-
-                    if (box1.get("meId") == null ||
-                        box1.get("meId") != result.data!["me"]["id"]) {
-                      box1.put("meId", result.data!["me"]["id"]);
-                      reloadList();
-                    }
-                    if (itemList.isEmpty) {
-                      reloadList();
-                    }
-
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          result.data!["me"]["firstName"],
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 5.h,
-                          ),
-                        ),
-                        Text(
-                          result.data!["me"]["lastName"],
-                          style: TextStyle(
-                            fontSize: 2.h,
-                          ),
-                        )
-                      ],
-                    );
-                  },
-                ),
-                SizedBox(
-                  height: 15.sp,
-                )
-              ],
-            )),
+                  Text(
+                    result.data!["me"]["lastName"],
+                    style: TextStyle(
+                      fontSize: 2.h,
+                    ),
+                  )
+                ],
+              ),);
+            },
+          ),
+          SizedBox(
+            height: 15.sp,
           ),
           Expanded(
             flex: FlexFit.loose.index,
@@ -120,10 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: ListView.builder(
                   itemCount: itemList.length,
                   itemBuilder: (context, index) {
-                    return ItemCard(
-                      itemList[index].name,
-                      description: itemList[index].description,
-                    );
+                    return ItemCard(itemList[index]);
                   }),
             ),
           ),
@@ -144,46 +126,15 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     QueryResult result = await _client.query(QueryOptions(
-        document: gql("""query GetItems(\$id: ID!, \$cursor: String) {
-                          node (id: \$id) {
-                              id
-                              ...on Person{
-                                  id
-                                  items(first: 10, after:\$cursor){
-                                      edges{
-                                          node {
-                                              id
-                                              ... on Item{
-                                                  id
-                                                  name
-                                                  description
-                                              }
-                                          }
-                                      }
-                                      pageInfo {
-                                          hasNextPage
-                                          endCursor
-                                      }
-                                  }
-                              }
-                          }
-                      }
-                      """), variables: variable));
-    if (result.hasException) {
+        document: gql(getItemsQuery), variables: variable));
+
+    if (result.hasException || result.data != null) {
       print(result);
       return null;
     } else {
-      var items = result.data?["node"]["items"]["edges"];
-      var newItems = <Item>[];
-      newItems.addAll(itemList);
-      for (var item in items) {
-        item = item['node'];
-        var newItem =
-            Item().setItem(item['name'], item['description'], item['id']);
-        newItems.add(newItem);
-      }
-      final pageInfo = result.data?["node"]["items"]["pageInfo"];
+      var newItems = ItemList.allItemsFromJson(result.data!,itemList);
       resetList(newItems);
+      final pageInfo = result.data?["node"]["items"]["pageInfo"];
       if (pageInfo["hasNextPage"]) {
         loadItems(pageInfo["endCursor"]);
       }
