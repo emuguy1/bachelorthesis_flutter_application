@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:de_num42_sharing/util/CustomError.dart';
+import 'package:de_num42_sharing/util/GraphQLConfiguration.dart';
 import 'package:de_num42_sharing/widget/persistentFooter.dart';
 import 'package:de_num42_sharing/widget/topBar.dart';
+import 'package:de_num42_sharing/widget/topBar2.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'register.dart';
@@ -9,32 +14,50 @@ import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 // https://github.com/flutter/flutter/issues/36126#issuecomment-596215587
 
-final graphqlEndpoint = 'http://192.168.188.69:4000/graphql/graphiql';
+var graphqlEndpoint = 'http://192.168.188.69:4000/graphql/graphiql';
 final subscriptionEndpoint = 'ws://192.168.188.69:4000/subscriptions';
 
-final _httpLink = HttpLink(
-  'https://api.github.com/graphql/graphiql',
-);
 
-final _authLink = AuthLink(
-  getToken: () async => 'Bearer dwa',
-);
 
+
+
+late Box box1;
+late GraphQLConfiguration graphQLConfig;
+late bool isLoggedIn;
+
+void createOpenBox()async{
+  box1 = await Hive.openBox('de.num42.sharing');
+  // when user re-visit app, we will get data saved in local database
+}
 void main() async {
-  ValueNotifier<GraphQLClient> client = ValueNotifier(
-    GraphQLClient(
-      link: HttpLink(graphqlEndpoint),
-      cache: GraphQLCache(store: InMemoryStore()),
-    ),
-  );
+  await Hive.initFlutter();
+  box1 = await Hive.openBox('de.num42.sharing');
 
-  runApp(GraphQLProvider(
-    client: client,
-    child: MyApp(),
-  ));
+  if(box1.get("login") != null){
+    graphqlEndpoint= 'http://192.168.188.69:4000/graphql/graphiql?authorization='+box1.get("login")+"&";
+    GraphQLConfiguration.setToken(box1.get("login"));
+    isLoggedIn=true;
+    //print(graphqlEndpoint);
+  }else{
+    isLoggedIn=false;
+  }
+
+  graphQLConfig = new GraphQLConfiguration();
+  if(box1.get("login") != null){
+    graphQLConfig.addToken(box1.get("login"));
+  }
+
+
+  runApp(
+      GraphQLProvider(
+          client: graphQLConfig.client,
+          child: MyApp()
+      )
+  );
 }
 //TODO: Add an app bar globaly https://stackoverflow.com/questions/59528216/is-there-a-better-way-to-add-an-appbar-only-once-in-flutter-app-and-use-it-in-al
 
@@ -57,6 +80,7 @@ class MyApp extends StatelessWidget {
           ),
           home: MyHomePage(title: 'SHARING.'),
           builder: (BuildContext context, Widget? widget){
+            isLoggedIn= box1.get("login")!=null;
             ErrorWidget.builder = (FlutterErrorDetails errorDetails){
               return CustomError(errorDetails: errorDetails);
             };
@@ -69,7 +93,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
-
   final String title;
 
   @override
@@ -97,6 +120,11 @@ class _MyHomePageState extends State<MyHomePage> {
     'Gepäckbox',
     'Umgrabmaschiene'
   ];
+  final isLoggedIn= box1.get("login") == null;
+
+  var client = graphQLConfig.client;
+
+
 
   void _incrementCounter() {
     setState(() {
@@ -108,8 +136,23 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void changeClient(){
+    setState((){
+      final authToken = box1.get("login");
+      if(authToken != null){
+        graphQLConfig.addToken(authToken);
+      }
+      else{
+        GraphQLConfiguration.removeToken();
+        graphQLConfig.overwriteClient();
+      }
+        client=graphQLConfig.client;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    //changeClient();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -117,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: topBar(context, false, false),
+      appBar: TopBar(hasBackArrow: false),
       body: SingleChildScrollView(
         child: Center(
           child: Container(
@@ -127,14 +170,19 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Query(
                   options: QueryOptions(
-                    document: gql("""query {
-  me {
-    id
-  }
-}
-"""),
+                    document: gql("""
+                       query me {
+                        me {
+                          id
+                          firstName
+                          lastName
+                        }
+                      }
+                    """),
                   ),
                   builder: (QueryResult result, {fetchMore, refetch}) {
+                    print(result);
+                    print(graphQLConfig.client);
                     if (result.hasException) {
                       if(result.exception?.graphqlErrors != null){
                         return Text(result.exception!.graphqlErrors.first.message.toString());
@@ -150,13 +198,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     }
 
-                    final productList = result.data?['products']['edges'];
+                    final productList = result.data!["me"]["firstName"];
                     print(productList);
 
                     return Text("Something");
                   },
                 ),
-                if(box1.isNotEmpty && box1.get("login")!= null)Text(box1.get("login")),
                 Text(
                   'Teilen macht',
                   style: TextStyle(

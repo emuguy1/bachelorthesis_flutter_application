@@ -24,7 +24,7 @@ class _DataProtectionPageState extends State<DataProtectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: topBar(context,false,false),
+      appBar: topBar(context,false),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(vertical:5.w,horizontal:10.h),
