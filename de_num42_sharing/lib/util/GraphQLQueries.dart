@@ -107,3 +107,7 @@ var messagesFromIdQuery =
         }
     }
 }""";
+
+var postMessageMutation="""mutation postMessage(\$recipientId: ID!, \$message: String!) {
+    postMessage(recipientId: \$recipientId, message: \$message)
+} """;

@@ -26,6 +26,7 @@ class _TopBar extends State<TopBar>{
   PreferredSizeWidget build(BuildContext context){
     return AppBar(
       automaticallyImplyLeading: widget.hasBackArrow,
+      centerTitle: widget.hasBackArrow,
       title: TextButton(
         child: Text("Sharing.",
             style: GoogleFonts.roboto(
@@ -54,7 +55,7 @@ class _TopBar extends State<TopBar>{
         },
       ),
       actions: [
-        if (!isLoggedIn)
+          if(!isLoggedIn)
           (Container(
             margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
             child: OutlinedButton(
@@ -91,7 +92,7 @@ class _TopBar extends State<TopBar>{
               },
             ),
           )),
-        if (isLoggedIn)
+        if (isLoggedIn && !widget.hasBackArrow)
           (Container(
             margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
             child: TextButton(
@@ -111,7 +112,7 @@ class _TopBar extends State<TopBar>{
               },
             ),
           )),
-        if (isLoggedIn)
+        if (isLoggedIn && !widget.hasBackArrow)
           (Container(
             margin: const EdgeInsets.fromLTRB(0, 5, 10, 5),
             child: TextButton(
@@ -129,12 +130,12 @@ class _TopBar extends State<TopBar>{
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ConversationsPage(),
+                    builder: (context) => MyHomePage(title: "Sharing."),
                   ),
                 );
               },
             ),
-          ))
+          )),
       ],
     );
   }

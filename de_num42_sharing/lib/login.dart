@@ -1,4 +1,4 @@
-
+import 'package:de_num42_sharing/noConnection.dart';
 import 'package:de_num42_sharing/profile.dart';
 import 'package:de_num42_sharing/util/GraphQLConfiguration.dart';
 import 'package:de_num42_sharing/util/GraphQLQueries.dart';
@@ -25,11 +25,17 @@ class _LoginPageState extends State<LoginPage> {
   var rememberValue = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  var showErrorMessage = false;
+  setErrorMessage(){
+    setState(() {
+      showErrorMessage = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: topBar(context,false),
+      appBar: topBar(context, false),
       body: Container(
         child: Center(
             child: Column(
@@ -67,29 +73,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
-                  Mutation(
-                    options: MutationOptions(
-                      document: gql("""mutation login {
-                        login(email: "asol@num42.de", password: "password")
-                      }
-                      """),
-                      onCompleted: (dynamic resultData){
-                        box1.put('login',resultData['login']);
-                        print(resultData);
-                      },
-                      update: (GraphQLDataProxy cache, QueryResult? result) {
-                        return cache;
-                      },
-                    ),
-                    builder: (RunMutation runMutation, QueryResult? result) {
-                      return FloatingActionButton(
-                        onPressed: () => authUser("asol@num42.de", "password"),
-                        tooltip: 'Star',
-                        child: Icon(Icons.star),
-                      );
-                    },
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
@@ -118,44 +101,71 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 5.h,
                   ),
+                  if(showErrorMessage)(
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text("Login fehlgeschlagen!",
+                      style: TextStyle(color: Colors.red),),
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 5.h),
+                    )
+                  ),
                   Mutation(
                     options: MutationOptions(
                       document: gql(loginMutation),
+                      onError: (dynamic error) {
+                        print(error);
+                        if(error.linkException!=null && error.linkException.originalException != null && error.linkException.originalException.socketEx != null && error.linkException.originalException.message == "Connection timed out"){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NoConnectionPage(),
+                            ),
+                          );
+                        }
+                        setErrorMessage();
+                      },
                       onCompleted: (dynamic resultData) {
-                        box1.put('login', resultData['login']);
+                        if(resultData != null){
+                        String token = resultData['login'];
+                        GraphQLConfiguration.setToken(token);
+                        graphQLConfig.addToken(token);
+                        isLoggedIn = true;
+                        box1.put("login", token);
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ProfilePage(),
                           ),
-                        );
-                        print(resultData);
-                        Navigator.pop(context);
+                        );}else{
+                          setErrorMessage();
+                        }
                       },
                       update: (GraphQLDataProxy cache, QueryResult? result) {
                         return cache;
                       },
                     ),
                     builder: (RunMutation runMutation, QueryResult? result) {
-                      return
-                        ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {}
-                            runMutation({'email': emailController.text,
-                              'password': passwordController.text});
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 2.h),
-                            primary: Color.fromRGBO(21, 128, 61, 1),
+                      return ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {}
+                          runMutation({
+                            'email': emailController.text,
+                            'password': passwordController.text
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.fromLTRB(5.w, 2.h, 5.w, 2.h),
+                          primary: Color.fromRGBO(21, 128, 61, 1),
+                        ),
+                        child: Text(
+                          'Einloggen',
+                          style: TextStyle(
+                            fontSize: 9.sp,
+                            fontWeight: FontWeight.bold,
                           ),
-                          child: Text(
-                            'Einloggen',
-                            style: TextStyle(
-                              fontSize: 9.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        );
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -175,28 +185,21 @@ class _LoginPageState extends State<LoginPage> {
     print(email);
     print(password);
 
-      QueryResult result = await _client.mutate(
-          MutationOptions(
-            document: gql(loginMutation),
-            variables: {
-              "email": email,
-              "password": password
-            }
-          )
-      );
-      if (result.hasException) {
-        print(result);
-        return null;
-      } else {
-        String token = result.data?['login'];
-        GraphQLConfiguration.setToken(token);
-        graphQLConfig.addToken(token);
-        isLoggedIn=true;
-        box1.put("login",token);
-        print('login' + token);
-        return null;
-      }
-      //box1.get("authorization");
+    QueryResult result = await _client.mutate(MutationOptions(
+        document: gql(loginMutation),
+        variables: {"email": email, "password": password}));
+    if (result.hasException) {
+      print(result);
+      return null;
+    } else {
+      String token = result.data?['login'];
+      GraphQLConfiguration.setToken(token);
+      graphQLConfig.addToken(token);
+      isLoggedIn = true;
+      box1.put("login", token);
+      print('login' + token);
+      return null;
+    }
+    //box1.get("authorization");
   }
-
 }

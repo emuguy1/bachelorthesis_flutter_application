@@ -33,7 +33,6 @@ class GraphQLConfiguration {
   }
 
   static Link getLink() {
-    print("get Link");
     return GraphQLConfiguration.link.isNotEmpty ?
     HttpLink(GraphQLConfiguration.link)
         : GraphQLConfiguration.httpLink;

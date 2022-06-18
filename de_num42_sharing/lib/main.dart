@@ -267,11 +267,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(3.w, 0.h, 3.w, 5.0),
+                  margin: EdgeInsets.fromLTRB(3.w, 0.h, 3.w, 0),
                   child: RichText(
                       text: TextSpan(
                     style: TextStyle(
-                      fontSize: 8.sp,
+                      fontSize: 14.sp,
                       color: Colors.black,
                     ),
                     children: <TextSpan>[
@@ -279,7 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       TextSpan(
                         text: 'Gruppen',
                         style: TextStyle(
-                            fontSize: 8.sp, fontWeight: FontWeight.w900),
+                            fontSize: 15.sp, fontWeight: FontWeight.w900),
                       ),
                       TextSpan(
                           text: ',mit einem wichtigen Unterschied zu vielen '
@@ -288,7 +288,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       TextSpan(
                         text: 'regelmäßig treffen',
                         style: TextStyle(
-                            fontSize: 8.sp, fontWeight: FontWeight.w900),
+                            fontSize: 15.sp, fontWeight: FontWeight.w900),
                       ),
                       TextSpan(text: '.'),
                     ],
@@ -296,11 +296,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Container(
                   width: 70.w,
-                  margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 2.w),
+                  height: 300,
                   child: SvgPicture.asset('assets/undraw_connection.svg'),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
+                  margin: EdgeInsets.symmetric(vertical: 2, horizontal: 2),
                   child: Text(
                     'Wir verleihen bereits an Personen, die wir kennen..',
                     style: TextStyle(
@@ -315,7 +315,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: RichText(
                       text: TextSpan(
                     style: TextStyle(
-                      fontSize: 8.sp,
+                      fontSize: 14.sp,
                       color: Colors.black,
                     ),
                     children: <TextSpan>[
@@ -325,7 +325,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       TextSpan(
                         text: 'Kreisen',
                         style: TextStyle(
-                            fontSize: 8.sp, fontWeight: FontWeight.w900),
+                            fontSize: 15.sp, fontWeight: FontWeight.w900),
                       ),
                       TextSpan(
                           text:
@@ -334,7 +334,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         text:
                             'Vertrauen zu den Personen, die wir bereits kennen',
                         style: TextStyle(
-                            fontSize: 8.sp, fontWeight: FontWeight.w900),
+                            fontSize: 15.sp, fontWeight: FontWeight.w900),
                       ),
                       TextSpan(text: ' und verleihen hier gerne Dinge.'),
                     ],
@@ -345,14 +345,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: RichText(
                     text: TextSpan(
                       style: TextStyle(
-                        fontSize: 8.sp,
+                        fontSize: 14.sp,
                         color: Colors.black,
                       ),
                       children: <TextSpan>[
                         TextSpan(
                           text: 'Verleihen macht Freude.',
                           style: TextStyle(
-                              fontSize: 8.sp, fontWeight: FontWeight.w900),
+                              fontSize: 15.sp, fontWeight: FontWeight.w900),
                         ),
                         TextSpan(
                             text: ' Verleihen gibt Gelegenheit zu kurzen '
