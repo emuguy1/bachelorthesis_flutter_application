@@ -49,7 +49,16 @@ class _ConversationsPageState extends State<ConversationsPage> {
               SizedBox(
                 height: 5.h,
               ),
-              Text("Nachrichten"),
+              Center(
+                child:
+                Text("Nachrichten",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp,
+                    color: Colors.black
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 15.sp,
               ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:sizer/sizer.dart';
 
 import '../data/model/conversationModel.dart';
@@ -16,6 +15,13 @@ class ConversationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            side: BorderSide(
+              color: Colors.black26,
+              width: 1.0,
+            ),
+          ),
           child: Container(
             width: 90.w,
             child: Stack(

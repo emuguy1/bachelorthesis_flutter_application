@@ -128,12 +128,12 @@ class _ProfilePageState extends State<ProfilePage> {
     QueryResult result = await _client.query(QueryOptions(
         document: gql(getItemsQuery), variables: variable));
 
-    if (result.hasException || result.data != null) {
+    if (result.hasException || result.data == null) {
       print(result);
       return null;
     } else {
       var newItems = ItemList.allItemsFromJson(result.data!,itemList);
-      resetList(newItems);
+      resetList(newItems.itemList);
       final pageInfo = result.data?["node"]["items"]["pageInfo"];
       if (pageInfo["hasNextPage"]) {
         loadItems(pageInfo["endCursor"]);

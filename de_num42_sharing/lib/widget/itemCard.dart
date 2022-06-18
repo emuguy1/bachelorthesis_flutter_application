@@ -14,13 +14,21 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        side: BorderSide(
+          color: Colors.black26,
+          width: 1.0,
+        ),
+      ),
       child: Container(
         width: 90.w,
         child: Stack(
           children: [
             Container(
               margin: EdgeInsets.fromLTRB(5, 10, 30, 15),
-              padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+              padding: EdgeInsets.fromLTRB(5, 5, 15, 5),
               child: Wrap(
                 children: [
                   Column(
@@ -32,12 +40,18 @@ class ItemCard extends StatelessWidget {
                         child: Text(
                           item.name,
                           style: TextStyle(
+                            fontSize: 15.sp,
                             color: Color.fromRGBO(21, 128, 61, 1),
                           ),
                         ),
                       ),
                       Text(item.description,
-                          maxLines: 2, overflow: TextOverflow.ellipsis)
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                          ),
+                      ),
                     ],
                   ),
                 ],
@@ -46,11 +60,11 @@ class ItemCard extends StatelessWidget {
             Positioned(
               child: SvgPicture.asset(
                 'assets/ballon_item_card.svg',
-                height: 40,
-                width: 40,
+                height: 70,
+                width: 50,
               ),
-              bottom: -5,
-              right: -18,
+              bottom: -15,
+              right: -35,
             ),
           ],
         ),
