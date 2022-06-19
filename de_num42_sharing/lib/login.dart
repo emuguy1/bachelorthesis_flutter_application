@@ -65,7 +65,15 @@ class _LoginPageState extends State<LoginPage> {
                       maxLines: 1,
                       controller: emailController,
                       decoration: InputDecoration(
+                        focusColor: Colors.green,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: Colors.green,
+                          ),
+                        ),
                         hintText: 'Enter your email',
+                        prefixIconColor: Colors.green,
                         prefixIcon: const Icon(Icons.email),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -90,6 +98,12 @@ class _LoginPageState extends State<LoginPage> {
                       controller: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                            color: Colors.green,
+                          ),
+                        ),
                         prefixIcon: const Icon(Icons.lock),
                         hintText: 'Enter your password',
                         border: OutlineInputBorder(

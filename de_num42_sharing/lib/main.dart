@@ -69,6 +69,9 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'SHARING - einfach Dinge teilen',
           theme: ThemeData(
+            colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.green,
+            ),
             textTheme: GoogleFonts.robotoTextTheme(
               Theme.of(context).textTheme,
             ),
