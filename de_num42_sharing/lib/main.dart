@@ -58,7 +58,6 @@ void main() async {
       )
   );
 }
-//TODO: Add an app bar globaly https://stackoverflow.com/questions/59528216/is-there-a-better-way-to-add-an-appbar-only-once-in-flutter-app-and-use-it-in-al
 
 class MyApp extends StatelessWidget {
   final loggedIn= box1.get("login")!=null;

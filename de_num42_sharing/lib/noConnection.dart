@@ -1,5 +1,6 @@
 import 'package:de_num42_sharing/widget/persistentFooter.dart';
 import 'package:de_num42_sharing/widget/topBar.dart';
+import 'package:de_num42_sharing/widget/topBar2.dart';
 import 'package:flutter/material.dart';
 
 class NoConnectionPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _NoConnectionPageState extends State<NoConnectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: topBar(context, false),
+      appBar: TopBar(hasBackArrow: false),
       body: Container(
         child: Center(
           child: Column(

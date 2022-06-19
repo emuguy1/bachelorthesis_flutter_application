@@ -11,6 +11,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:sizer/sizer.dart';
 
 import 'main.dart';
+import 'widget/topBar2.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: topBar(context, false),
+      appBar: TopBar(hasBackArrow: false),
       body: Container(
         child: Center(
             child: Column(
