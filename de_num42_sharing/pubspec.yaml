@@ -38,13 +38,15 @@ dependencies:
   provider: ^6.0.0
 
     # …………………………… graphql
-  graphql_flutter: ^5.0.0
+  graphql_flutter: ^5.0.1
   graphql: ^5.1.2-beta.1
   json_serializable: ^3.2.3
   hive: ^2.2.1
   hive_flutter: ^1.1.0
   riverpod: ^1.0.3
   timeago: ^3.2.2
+  connectivity_plus_windows: ^1.2.2
+
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.num42.de_num42_sharing">
-   <application
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
         android:label="de_num42_sharing"
         android:icon="@mipmap/ic_launcher">
         <activity

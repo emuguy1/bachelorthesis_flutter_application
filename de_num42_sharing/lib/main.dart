@@ -211,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   'Kein Spam. Alle deine Daten sind jederzeit löschbar',
                   style: TextStyle(
                     fontWeight: FontWeight.w300,
-                    color: Colors.grey,
+                    color: Colors.yellow,
                     fontSize: 15.0,
                   ),
                 ),
@@ -242,6 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                       blendMode: BlendMode.dstOut,
                       child: Wrap(
+                        direction: Axis.horizontal,
                         children: List.generate(
                           18,
                           (index) {
