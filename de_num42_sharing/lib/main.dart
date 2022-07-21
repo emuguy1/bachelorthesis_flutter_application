@@ -6,7 +6,7 @@ import 'package:de_num42_sharing/util/GraphQLConfiguration.dart';
 import 'package:de_num42_sharing/widget/persistentFooter.dart';
 import 'package:de_num42_sharing/widget/topBar2.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-
+import 'package:riverpod/riverpod.dart';
 import 'register.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -15,6 +15,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+
+import 'package:flutter/widgets.dart';
+import 'package:path/path.dart';
+import 'package:sqflite_common/sqlite_api.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 // https://github.com/flutter/flutter/issues/36126#issuecomment-596215587
 
@@ -28,14 +34,24 @@ final subscriptionEndpoint = 'ws://192.168.188.69:4000/subscriptions';
 late Box box1;
 late GraphQLConfiguration graphQLConfig;
 late bool isLoggedIn;
+late Database daba;
 
 void createOpenBox()async{
   box1 = await Hive.openBox('de.num42.sharing');
   // when user re-visit app, we will get data saved in local database
 }
 void main() async {
+  sqfliteFfiInit();
   await Hive.initFlutter();
   box1 = await Hive.openBox('de.num42.sharing');
+
+  // Importing 'package:flutter/widgets.dart' is required.
+  WidgetsFlutterBinding.ensureInitialized();
+  final database = await databaseFactoryFfi.openDatabase(inMemoryDatabasePath);
+
+  await database.execute('CREATE TABLE items(itemId TEXT PRIMARY KEY, name TEXT, description TEXT)',);
+
+  daba = database;
 
   if(box1.get("login") != null){
     graphqlEndpoint= 'http://192.168.188.69:4000/graphql/graphiql?authorization='+box1.get("login")+"&";

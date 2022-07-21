@@ -1,7 +1,7 @@
 class ItemModel{
-  var name;
-  var description;
-  var itemId;
+  late final String name;
+  late final String description;
+  late final String itemId;
 
   ItemModel({
     required this.name,
@@ -10,11 +10,27 @@ class ItemModel{
   });
 
   ItemModel.fromJson(Map<String, dynamic> item){
-    item = item["node"];
+    item = item["node"]??"";
 
-    name= item['name'];
-    description = item['description'];
-    itemId = item['id'];
+    name= item['name']??"";
+    description = item['description']??"";
+    itemId = item['id']??"";
+  }
+  // Convert a Item into a Map. The keys must correspond to the names of the
+  // columns in the database.
+  Map<String, dynamic> toMap() {
+    return {
+      'itemId': itemId,
+      'name': name,
+      'description': description,
+    };
+  }
+
+  // Implement toString to make it easier to see information about
+  // each dog when using the print statement.
+  @override
+  String toString() {
+    return 'ItemDatabaseModel{id: $itemId, name: $name, age: $description}';
   }
 
 }
